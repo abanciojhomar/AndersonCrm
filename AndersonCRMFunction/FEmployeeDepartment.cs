@@ -17,15 +17,21 @@ namespace AndersonCRMFunction
         }
 
         #region CREATE
-        public void Create(int createdBy, int employeeId, List<Department> departments)
+        public void Create(int createdBy, int employeeId, List<EmployeeDepartment> employeeDepartments)
         {
             Delete(employeeId);
-            var eEmployeeDepartments = EEmployeeDepartments(createdBy, employeeId, departments);
+            var eEmployeeDepartments = EEmployeeDepartments(createdBy, employeeId, employeeDepartments);
             _iDEmployeeDepartment.Create(eEmployeeDepartments);
         }
         #endregion
-        
+
         #region READ
+        public List<EmployeeDepartment> Read(List<int> departmentIds)
+        {
+            List<EEmployeeDepartment> eEmployeeDepartments = _iDEmployeeDepartment.List<EEmployeeDepartment>(a => departmentIds.Contains(a.DepartmentId));
+            return EmployeeDepartment(eEmployeeDepartments);
+        }
+
         #endregion
 
         #region UPDATE
@@ -39,7 +45,7 @@ namespace AndersonCRMFunction
         #endregion
 
         #region OTHER FUNCTION
-        private List<EEmployeeDepartment> EEmployeeDepartments(int createdBy, int employeeId, List<Department> employeeDepartments)
+        private List<EEmployeeDepartment> EEmployeeDepartments(int createdBy, int employeeId, List<EmployeeDepartment> employeeDepartments)
         {
             return employeeDepartments.Select(a => new EEmployeeDepartment
             {
@@ -49,7 +55,20 @@ namespace AndersonCRMFunction
                 DepartmentId = a.DepartmentId,
                 EmployeeId = employeeId
             }).ToList();
+
         }
+        private List<EmployeeDepartment> EmployeeDepartment(List<EEmployeeDepartment> eEmployeeDepartments)
+        {
+            return eEmployeeDepartments.Select(a => new EmployeeDepartment
+            {
+                CreatedDate = a.CreatedDate,
+
+                CreatedBy = a.CreatedBy,
+                DepartmentId = a.DepartmentId,
+                EmployeeId = a.EmployeeId
+            }).ToList();
+        }
+
         #endregion
     }
 }

@@ -23,6 +23,8 @@ namespace AndersonCRMEntity
         public int ManagerEmployeeId { get; set; }
 
         [StringLength(50)]
+        public string EmployeeNumber { get; set; }
+        [StringLength(50)]
         public string Email { get; set; }
         [StringLength(250)]
         public string FirstName { get; set; }        
@@ -30,6 +32,8 @@ namespace AndersonCRMEntity
         public string LastName { get; set; }
         [StringLength(250)]
         public string MiddleName { get; set; }
+        [StringLength(5)]
+        public string Pin { get; set; }
 
         public virtual ECompany Company { get; set; }
         public virtual EJobTitle JobTitle { get; set; }
@@ -37,7 +41,7 @@ namespace AndersonCRMEntity
 
         public virtual ICollection<EEmployeeDepartment> EmployeeDepartments { get; set; }
         public virtual ICollection<EEmployeeTeam> EmployeeTeams { get; set; }
-        public virtual ICollection<EPeripheral> Peripherals { get; set; }
-        public virtual ICollection<EPeripheralHistory> PeripheralHistories { get; set; }
+        public virtual ICollection<EAsset> Assets { get; set; }
+        public virtual ICollection<EAssetHistory> AssetHistories { get; set; }
     }
 }
